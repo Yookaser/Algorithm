@@ -7,7 +7,7 @@ def sl_game(idx):
             DP[ladder[idx+dice]] = min(DP[idx]+1, DP[idx+dice], DP[ladder[idx+dice]]) # 해당 사다리 이동 인덱스 값을 3개중 최소값 변경(밑 줄이랑 순서 중요할 것이라 생각)
             DP[idx+dice] = min(DP[idx]+1, DP[idx+dice]) # 해당 사다리 인덱스 값을 2개중 최소값으로 변경
 
-        elif idx + dice in snake: # 벰인 경우
+        elif idx + dice in snake: # 뱀인 경우
             if DP[snake[idx+dice]] > DP[idx]+1: # 뱀을 타고 돌아간 경우가 해당 인덱스 값보다 작은 경우(2 1 // 2 60 // 40 98 // 65 25 가 있음 // => 엔터)
                 DP[snake[idx+dice]] = DP[idx]+1
                 return snake[idx+dice] # 해당 인덱스 값 반환(그러면 while에서 해당 인덱스부터 다시 반복 => 더 작은 값이 발견되었으므로 다시 반복해야 됨)

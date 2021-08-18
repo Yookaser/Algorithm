@@ -1,4 +1,4 @@
-# 요세푸스 문제
+# 1158. 요세푸스 문제
         
 N, K = list(map(int, input().split()))
 N_list = list(range(1, N + 1))

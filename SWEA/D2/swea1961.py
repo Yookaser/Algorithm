@@ -1,4 +1,5 @@
 # 1961. 숫자 배열 회전
+
 import copy
 
 def arr_column(arr, column): # 2중 리스트에서 컬럼을 반환하는 함수

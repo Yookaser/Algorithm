@@ -1,4 +1,4 @@
-# 내적
+# 70128. 내적
 
 def solution(a, b):
     result = 0

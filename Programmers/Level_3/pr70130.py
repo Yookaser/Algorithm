@@ -1,4 +1,4 @@
-# 스타 수열
+# 70130. 스타 수열
 
 def solution(arr):
     length = len(arr)

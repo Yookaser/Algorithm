@@ -1,6 +1,6 @@
 # 1238. 파티
 
-def bfs(start, town_map):
+def dijkstra(start, town_map):
     DP = [INF] * (N+1) # 각 노드의 비용은 최대값(10,000*100)으로 초기화(다익스트라)
     DP[start] = 0 # 시작값 0으로
     bfs_list = []
@@ -34,7 +34,7 @@ for _ in range(M):
     town_map1[x1].append([x2, x3]) # 원래 그래프
     town_map2[x2].append([x1, x3]) # 역 그래프(문제의 핵심)
 
-result1 = bfs(X, town_map1)
-result2 = bfs(X, town_map2)
+result1 = dijkstra(X, town_map1)
+result2 = dijkstra(X, town_map2)
 
 print(max([i+j for i, j in zip(result1[1:], result2[1:])]))

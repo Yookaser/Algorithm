@@ -1,156 +1,85 @@
 # 5373. 큐빙
 
-def rotation(arr, d):
-    temp = [[0] * 3 for _ in range(3)]
-
-    if d == 1:
-        for i in range(9):
-            r, c = divmod(i, 3)
-            temp[r][c] = arr[2-c][r]
-    else:
-        for i in range(9):
-            r, c = divmod(i, 3)
-            temp[r][c] = arr[c][2-r]
-    return temp
-
-
-def column(arr, idx):
-    result = []
-    for i in range(3):
-        result.append(arr[i][idx])
-    return result
-
-
-T = int(input())
-for _ in range(T):
-    N = int(input())
-    arr = input().split()
-    
-    U = [['w', 'w', 'w'], ['w', 'w', 'w'], ['w', 'w', 'w']]
-    D = [['y', 'y', 'y'], ['y', 'y', 'y'], ['y', 'y', 'y']]
-    F = [['r', 'r', 'r'], ['r', 'r', 'r'], ['r', 'r', 'r']]
-    B = [['o', 'o', 'o'], ['o', 'o', 'o'], ['o', 'o', 'o']]
-    L = [['g', 'g', 'g'], ['g', 'g', 'g'], ['g', 'g', 'g']]
-    R = [['b', 'b', 'b'], ['b', 'b', 'b'], ['b', 'b', 'b']]
-
-    for value in arr:
-        h, d  = value[0], value[1]
-        if h == 'U':
-            if d == '+':
-                L[0], F[0], R[0], B[0] = F[0], R[0], B[0], L[0]
-                U = rotation(U, 0)
-            else:
-                L[0], F[0], R[0], B[0] = B[0], L[0], F[0], R[0]
-                U = rotation(U, 1)
-        elif h == 'D':
-            if d == '+':
-                L[2], F[2], R[2], B[2] = F[2], R[2], B[2], L[2]
-                D = rotation(D, 0)
-            else:
-                L[2], F[2], R[2], B[2] = B[2], L[2], F[2], R[2]
-                D = rotation(D, 1)
-
-
-        elif h == 'L':
-            if d == '+':
-                for i in range(3):
-                    
-                    U[i][0], F[i][0], D[i][0], B[i][0] = B[i][0], U[i][0], F[i][0], D[i][0]
-                L = rotation(L, 0)
-            else:
-                for i in range(3):
-                    U[i][0], F[i][0], D[i][0], B[i][0] = F[i][0], D[i][0], B[i][0], U[i][0]
-                L = rotation(L, 1)
-        elif h == 'F':
-            if d == '+':
-                for i in range(3):
-                    L[i][2], U[2][i], R[i][0], D[0][i] = D[0][i], L[2][i], U[2][i], R[i][0]
-                F = rotation(F, 0)
-            else:
-                for i in range(3):
-                    L[i][2], U[2][i], R[i][0], D[0][i] = U[2][i], R[i][0], D[0][i], L[i][2]
-                F = rotation(F, 1)
-        elif h == 'R':
-            if d == '+':
-                for i in range(3):                   
-                    U[i][2], F[i][2], D[i][2], B[i][2] = F[i][2], D[i][2], B[i][2], U[i][2]
-                R = rotation(R, 0)
-            else:
-                for i in range(3):
-                    U[i][2], F[i][2], D[i][2], B[i][2] = B[i][2], U[i][2], F[i][2], D[i][2]
-                R = rotation(R, 1)
-        elif h == 'B':
-            if d == '+':
-                for i in range(3):
-                    L[i][0], U[0][i], R[i][2], D[2][i] = U[0][i], R[i][2], D[2][i], L[i][0]
-                B = rotation(B, 0)
-            else:
-                for i in range(3):
-                    L[i][0], U[0][i], R[i][2], D[2][i] = D[2][i], L[i][0], U[0][i], R[i][2]
-                B = rotation(B, 1)
-
-    for i in range(3):
-        print(''.join(U[i]))
-
-    print('\n')
-
-    print('U', U)
-    print('D', D)
-    print('F', F)
-    print('B', B)
-    print('L', L)
-    print('R', R)
-
-
-
-
-def rotation(arr, d):
-    temp = [[0] * 3 for _ in range(3)]
-
-    if d == 1:
-        for i in range(9):
-            r, c = divmod(i, 3)
-            temp[r][c] = arr[2-c][r]
-    else:
-        for i in range(9):
-            r, c = divmod(i, 3)
-            temp[r][c] = arr[c][2-r]
-    return temp
-
-
-U = [['w'] * 3 for _ in range(3)]
-D = [['y'] * 3 for _ in range(3)]
-F = [['r'] * 3 for _ in range(3)]
-B = [['o'] * 3 for _ in range(3)]
-L = [['g'] * 3 for _ in range(3)]
-R = [['b'] * 3 for _ in range(3)]
-
-def change(area, d):  # 면, 방향
+# 처음 시작할 때, 면마다 시작 인덱스(0,0) ~ (0,2)를 정해주는 것이 중요
+# 아래 코드에서는 전개도(가로3 칸, 세로4 칸)를 펼쳤을 때, D를 제외하고 모두 왼쪽 상단 선을 기준
+# D는 하단 선으로 지정했고, 우측 하단을 기준
+# 이렇게 설정했을 때, 아랫면은 회전 방향을 주의해야 함(그림을 그렸을 때, 반대로 돌게됨)
+# 자신을 기준으로 4면을 회전시킨 다음에 자신도 회전해야 함
+# '+'를 구현하고, '-'는 '+'를 3번 시키면 됨
+def change(area):  # 면
+    # 방향마다 a, b, c, d, e 지정(a는 자기자신 // 그냥 복사하여 값을 변경하면 원본도 바뀌는 리스트 특성을 이용)
     if area == 'U':
         a, b, c, d, e = U, L, F, R, B
     elif area == 'D':
         a, b, c, d, e = D, L, F, R, B
     elif area == 'L':
-        a, b, c, d, e = L, U, F, D, B
+        a, b, c, d, e = L, D, F, U, B
     elif area == 'F':
-        a, b, c, d, e = F, L, U, R, D
+        a, b, c, d, e = F, L, D, R, U
     elif area == 'R':
         a, b, c, d, e = R, U, F, D, B
     elif area == 'B':
         a, b, c, d, e = B, L, U, R, D
+
+    # 방향에 따른 4면을 회전
+    if area == 'U':
+        b[0][2], b[1][2], b[2][2], c[0][0], c[0][1], c[0][2], \
+        d[0][0], d[1][0], d[2][0], e[2][0], e[2][1], e[2][2] = \
+        c[0][0], c[0][1], c[0][2], d[2][0], d[1][0], d[0][0], \
+        e[2][0], e[2][1], e[2][2], b[2][2], b[1][2], b[0][2]
+    elif area == 'D':  # 다른 면들과 다르게 회전함(주의)
+        b[0][0], b[1][0], b[2][0], c[2][0], c[2][1], c[2][2], \
+        d[0][2], d[1][2], d[2][2], e[0][0], e[0][1], e[0][2] = \
+        e[0][2], e[0][1], e[0][0], b[0][0], b[1][0], b[2][0], \
+        c[2][2], c[2][1], c[2][0], d[0][2], d[1][2], d[2][2]
+    elif area in ('L'):
+        b[0][2], b[1][2], b[2][2], c[2][0], c[1][0], c[0][0], \
+        d[0][0], d[1][0], d[2][0], e[0][0], e[1][0], e[2][0] = \
+        c[2][0], c[1][0], c[0][0], d[2][0], d[1][0], d[0][0], \
+        e[0][0], e[1][0], e[2][0], b[2][2], b[1][2], b[0][2]
+    elif area in ('F'):
+        b[2][2], b[2][1], b[2][0], c[2][2], c[2][1], c[2][0], \
+        d[2][0], d[2][1], d[2][2], e[2][0], e[2][1], e[2][2] = \
+        c[2][2], c[2][1], c[2][0], d[2][2], d[2][1], d[2][0], \
+        e[2][0], e[2][1], e[2][2], b[2][0], b[2][1], b[2][2]
+    elif area in ('R'):
+        b[0][2], b[1][2], b[2][2], c[0][2], c[1][2], c[2][2], \
+        d[0][0], d[1][0], d[2][0], e[2][2], e[1][2], e[0][2] = \
+        c[0][2], c[1][2], c[2][2], d[2][0], d[1][0], d[0][0], \
+        e[2][2], e[1][2], e[0][2], b[2][2], b[1][2], b[0][2]
+    elif area in ('B'):
+        b[0][0], b[0][1], b[0][2], c[0][0], c[0][1], c[0][2], \
+        d[0][2], d[0][1], d[0][0], e[0][2], e[0][1], e[0][0] = \
+        c[0][0], c[0][1], c[0][2], d[0][0], d[0][1], d[0][2], \
+        e[0][2], e[0][1], e[0][0], b[0][2], b[0][1], b[0][0]
     
+    # 자기자신을 회전(시계방향 90도)
+    a[0][0], a[0][1], a[0][2], a[1][0], a[1][1], a[1][2], a[2][0], a[2][1], a[2][2] = \
+    a[2][0], a[1][0], a[0][0], a[2][1], a[1][1], a[0][1], a[2][2], a[1][2], a[0][2]
+
+
+import sys
+
+input = sys.stdin.readline
+T = int(input())
+for _ in range(T):
+    N = int(input())
+    arr = input().split()
+
+    U = [['w'] * 3 for _ in range(3)]
+    D = [['y'] * 3 for _ in range(3)]
+    F = [['r'] * 3 for _ in range(3)]
+    B = [['o'] * 3 for _ in range(3)]
+    L = [['g'] * 3 for _ in range(3)]
+    R = [['b'] * 3 for _ in range(3)]
+
+    for value in arr:
+        if value[1] == '+':  # +인 경우 한 번만 실행
+            change(value[0])
+        else:  # -인 경우 3번 실행
+            change(value[0])
+            change(value[0])
+            change(value[0])
     
-
-    if area in ('U', 'D'):
-        if d =='+':
-            b[0], c[0], d[0], e[0] = c[0], d[0], e[0], b[0]
-        else:
-            b[0], c[0], d[0], e[0] = e[0], b[0], c[0], d[0]
-    else:
-        if d =='+':
-            b[0][0], b[1][0], b[2][0], c[0][0], c[1][0], c[2][0], \
-            d[0][0], d[1][0], d[2][0], e[0][0], e[1][0], e[2][0] = \
-            
-
-
-    a = rotation(a, '+') if d == '+' else rotation(a, '-')
+    for i in range(3):
+        print(''.join(U[i]))

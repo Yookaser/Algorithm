@@ -1,6 +1,6 @@
 # Algorithm Study
 
-[[_TOC_]]
+[TOC]
 
 ## 1. 개요
 

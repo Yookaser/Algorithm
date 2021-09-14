@@ -16,6 +16,7 @@ def bfs(A, B, w):
             if nn not in visited and nw >= w:  # 방문한 적 없고 중량 제한에 안 걸리는 경우
                 q.append(nn)
                 visited.add(nn)
+        print(visited)
     return False  # 목적지에 도착하지 못한 경우
 
 
@@ -33,7 +34,7 @@ for _ in range(M):  # 양방향임을 명시할 것
     else:
         grf[A][B] = C
         grf[B][A] = C
-
+print(grf)
 A, B = map(int, input().split())
 
 ans = 1

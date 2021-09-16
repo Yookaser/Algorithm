@@ -2,7 +2,7 @@
 
 # 1. nCr = ((n-k)!/k!) % p
 # 2. A = (n-k)!, B = k!
-# 3. A * B**(-1) % p
+# 3. A * B**(-1) % p  (1 = b**(p-1))
 # 4. A * B**(p-2) % p (페르마의 정리로 문제에서 p*(소수)로 나눈 나머지를 구하라고 해서 구할 수 있는 식)
 def solve(A, B):
     if B == 1: return A % p  # 시작부터 B가 1인 경우를 위해 나머지 연산
@@ -24,6 +24,7 @@ def combination(N, K):
         
     b = solve(b, p-2)  # (k!)**(p-2) 구하기
     return a*b % p  # 이항 계수값 구하기
+
 
 N, K = map(int, input().split())
 p = 1_000_000_007

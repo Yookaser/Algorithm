@@ -1,15 +1,19 @@
 # 11404. 플로이드
 
+from sys import stdin
+
+
 def floyd():
     for k in range(N): # 경유지
         for i in range(N): # 출발지
+            if i == k: continue  # 출발지와 경유지가 같으면 돌 필요 없음
             for j in range(N): # 도착지
-                if i != j:
-                    DP[i][j] = min(DP[i][j], DP[i][k] + DP[k][j]) # 직진과 경유지를 거친 값 중 더 적은 값을 선택
+                if i == j: continue  # 출발지와 도착지가 같으면 돌 필요 없음
+                if DP[i][j] > DP[i][k] + DP[k][j]:  # min보다 조건문 처리가 더 빨랐음(이유는 모르겠음)
+                    DP[i][j] = DP[i][k] + DP[k][j]
 
-import sys
 
-input = sys.stdin.readline
+input = stdin.readline
 N = int(input())
 M = int(input())
 maxi = 10**9 # 대략적인 값으로 설정함

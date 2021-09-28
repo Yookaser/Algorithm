@@ -21,11 +21,10 @@ def solution(begin, target, words):
             return
         
         for word in words:
-            if w != word:  # 같은 경우는 isgo 함수가 걸러주지 않음
-                if word not in v and isgo(w, word):  # 방문한 적 없고 isgo가 True를 반환하는 경우
-                    v.add(word)
-                    dfs(word, c+1, v)  # 백트래킹
-                    v.remove(word)
+            if word not in v and isgo(w, word):  # 방문한 적 없고 isgo가 True를 반환하는 경우
+                v.add(word)
+                dfs(word, c+1, v)  # 백트래킹
+                v.remove(word)
         
         
     dfs(begin, 0, set())        

@@ -1,12 +1,12 @@
 # 43164. 여행경로
 
+from collections import defaultdict
+
+
 def solution(tickets):
-    ans, dic = ["ZZZZ"], {}  # 최댓값으로 설정
+    ans, dic = ["ZZZZ"], defaultdict(list)  # 최댓값으로 설정
     for ticket in tickets:  # list -> dict로 변환(tickets)
-        if dic.get(ticket[0]):  # 이미 key가 있는 경우
-            dic[ticket[0]].append(ticket[1])  # value(list)에 추가
-        else:
-            dic[ticket[0]] = [ticket[1]]
+        dic[ticket[0]].append(ticket[1])  # value(list)에 추가
     
     for key in dic:  # value(list) 정렬
         dic[key].sort(reverse=True)

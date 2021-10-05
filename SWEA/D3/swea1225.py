@@ -2,6 +2,7 @@
 
 from collections import deque
 
+
 for test in range(10):
     N = int(input())
     arr = deque(map(int, input().split()))

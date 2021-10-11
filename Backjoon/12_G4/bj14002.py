@@ -18,10 +18,10 @@ for i in range(1, N):
     if B[-1] < A[i]:  # B의 최댓값보다 더 큰 경우
         B.append(A[i])
         L.append(len(B))  # 길이를 저장
-    else:  # v의 최댓값보다 작으면 위치 찾아줌
+    else:  # B의 최댓값보다 작으면 위치 찾아줌
         v = binary_search(0, len(B)-1, A[i])
         B[v] = A[i]  # v위치를 교환
-        L.append(v+1)  # v의 길이 +1 저장(현재 A[i]의 값의 증가 수열의 길이임)
+        L.append(v+1)  # v+1(자신보다 앞의 숫자의 개수) 저장
 
 m = max(L)  # 최장 길이
 for i in range(len(L)-1, -1, -1):  # 가장 긴 수열을 찾는 반복(역순으로)

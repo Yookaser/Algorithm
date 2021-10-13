@@ -5,12 +5,11 @@ from collections import deque
 
 def down(arr, v):  # 값들을 정렬시키는(내리는) 함수
     for c in v:  # 입력받은 열들만 반복
-        t, flag = 0, False
+        t = 0
         for r in range(H-1, -1, -1):
             if not arr[r][c]:  # 0인 경우
                 t += 1
-                flag = True
-            if flag and arr[r][c]:  # 0이 이미 나왔고, 0이 아닌 수가 나온 경우
+            if t and arr[r][c]:  # 0이 이미 나왔고, 0이 아닌 수가 나온 경우
                 arr[r+t][c] = arr[r][c]  # t만큼 밀어주기
                 arr[r][c] = 0
 
@@ -34,7 +33,6 @@ def bfs(arr, r, c):  # 폭탄을 터트리는 함수
     down(arr, v)  # 정렬 실행
 
 
-
 def dfs(arr, idx):
     global res
     if idx == N:  # base case
@@ -43,12 +41,12 @@ def dfs(arr, idx):
 
     con = 0  # 모두 0인 열 카운트
     for j in range(W):
-        arr_copy = [row[:] for row in arr]  # 깊은 복사(deepcopy보다 빠름)
         for i in range(H):  # 맨 위의 열 찾기
-            if arr_copy[i][j]: break
+            if arr[i][j]: break
         else:  # 해당 열이 모두 0인 경우
             con += 1
             continue
+        arr_copy = [row[:] for row in arr]  # 깊은 복사(deepcopy보다 빠름 | 윗 라인보다 여기에 위치해야 속도가 더 빠름)
         bfs(arr_copy, i, j)  # 블록 터트리기
         dfs(arr_copy, idx+1)  # 다음 진행
 

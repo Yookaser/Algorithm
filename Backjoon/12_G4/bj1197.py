@@ -64,6 +64,7 @@ print(ans)
 #             ans += d
 #             cnt += 1
 #             for k, v in grp[a].items():
+#                 if vst[i[1]]: continue  # 방문한 곳을 다시 방문 X
 #                 heappush(q, (v, k))
 
 

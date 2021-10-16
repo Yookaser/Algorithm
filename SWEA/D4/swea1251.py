@@ -44,17 +44,20 @@ for tc in range(1, T+1):
 print(*ans, sep='\n')
 
 # 방법2. Kruscal
-# def cost(x1, y1, x2, y2):
+# from heapq import heappush, heappop
+
+
+# def cost(x1, y1, x2, y2):  # 거리를 구하는 함수
 #     return (abs(x1-x2)**2 + abs(y1-y2)**2) * E
 
 
-# def find(x):
+# def find(x):  # 루트 노드를 찾는 함수
 #     if p[x] < 0: return x
 #     p[x] = find(p[x])
 #     return p[x]
 
 
-# def union(x, y):
+# def union(x, y):  # 합병 함수
 #     x, y = find(x), find(y)
 
 #     if x != y:
@@ -79,16 +82,14 @@ print(*ans, sep='\n')
 #     grp = []
 #     for i in range(N):
 #         for j in range(i+1, N):
-#             grp.append((i, j, cost(X[i], Y[i], X[j], Y[j])))
-
-#     grp.sort(key=lambda x: x[2])
+#             heappush(grp, (cost(X[i], Y[i], X[j], Y[j]), i, j))  # 정렬보다 heapq를 이용하는 것이 빨랐음
 
 #     res = cnt = 0
-#     for a, b, c in grp:
-#         if union(a, b):
+#     while cnt != N - 1:
+#         d, i, j = heappop(grp)
+#         if union(i, j):
 #             cnt += 1
-#             res += c
-#             if cnt == N - 1: break
+#             res += d
 
 #     ans.append('#{0} {1:.0f}'.format(tc, res))
 
